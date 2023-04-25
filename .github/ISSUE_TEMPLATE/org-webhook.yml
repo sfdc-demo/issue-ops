@@ -49,7 +49,7 @@ body:
     id: terms
     attributes:
       label: Which events would you like to trigger this webhook?
-      description: For more details on events please see https://docs.github.com/en/rest/orgs/webhooks?apiVersion=2022-11-28
+      description: For more details on events please see the [Webhook events and payloads](https://docs.github.com/en/rest/orgs/webhooks?apiVersion=2022-11-28) docs
       options:
         - label: Branch or tag creation
         - label: Branch or tag deletion
