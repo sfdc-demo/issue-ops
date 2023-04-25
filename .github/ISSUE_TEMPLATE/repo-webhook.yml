@@ -1,6 +1,6 @@
 name: create a repository webhook
 description: Repository webhooks allow you to receive HTTP POST payloads whenever certain events happen in a repository.
-title: "[req] create an repository webhook"
+title: "[req] create a repository webhook"
 labels: ["repository", "web hook"]
 assignees:
   - octocat
