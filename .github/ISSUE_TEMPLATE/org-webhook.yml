@@ -21,15 +21,6 @@ body:
       placeholder: ex. salesforce
     validations:
       required: false
-  - type: textarea
-    id: organization
-    attributes:
-      label: organization
-      description: organization name is required
-      placeholder: Tell us what you see!
-      value: "A bug happened!"
-    validations:
-      required: true
   - type: markdown
     attributes:
       value: |
