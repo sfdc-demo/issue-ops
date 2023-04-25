@@ -13,6 +13,14 @@ body:
         - github.com
         - github.com EMU
         - github enterprise (SOMA)
+  - type: input
+    id: organization
+    attributes:
+      label: GitHub Organization
+      description: The name of the github organization
+      placeholder: ex. salesforce
+    validations:
+      required: false
   - type: textarea
     id: organization
     attributes:
