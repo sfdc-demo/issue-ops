@@ -1,7 +1,7 @@
-name: Create an organization webhook
+name: create an organization webhook
 description: Organization webhooks allow you to receive HTTP POST payloads whenever certain events happen in a organization.
-title: Create an organization webhook
-labels: ["org", "webhook"]
+title: [req] create an organization webhook
+labels: ["organization", "web hook"]
 assignees:
   - octocat
 body:
@@ -16,6 +16,22 @@ body:
         - github enterprise (SOMA)
   - type: input
     id: organization
+    attributes:
+      label: GitHub Organization
+      description: The name of the github organization
+      placeholder: ex. salesforce
+    validations:
+      required: false
+  - type: input
+    id: url
+    attributes:
+      label: Payload URL
+      description: Enter the web hook url
+      placeholder: https://example.com/post
+    validations:
+      required: false
+  - type: input
+    id: 
     attributes:
       label: GitHub Organization
       description: The name of the github organization
