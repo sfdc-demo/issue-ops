@@ -1,7 +1,7 @@
-name: create an organization webhook
-description: Organization webhooks allow you to receive HTTP POST payloads whenever certain events happen in a organization.
-title: "[req] create an organization webhook"
-labels: ["organization", "web hook"]
+name: create a repository webhook
+description: repository webhooks allow you to receive HTTP POST payloads whenever certain events happen in a repository.
+title: "[req] create an repository webhook"
+labels: ["repository", "web hook"]
 assignees:
   - octocat
 body:
