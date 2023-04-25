@@ -1,5 +1,7 @@
 name: create an organization webhook
-description: Organization webhooks allow you to receive HTTP POST payloads whenever certain events happen in a organization. Items with (*) are required<br><br>
+description: "Organization webhooks allow you to receive HTTP POST payloads whenever certain events happen in a organization. Items with (*) are required
+
+"
 title: "[req] create an organization webhook"
 labels: ["organization", "web hook"]
 assignees:
@@ -23,7 +25,7 @@ body:
   - type: input
     id: url
     attributes:
-      label: Payload URL
+      label: Payload URL (*)
       description: The webhook url
       placeholder: https://example.com/post
   - type: dropdown
