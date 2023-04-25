@@ -2,8 +2,6 @@ name: create an organization webhook
 description: Organization webhooks allow you to receive HTTP POST payloads whenever certain events happen in a organization.
 title: "[req] create an organization webhook"
 labels: ["organization", "web hook"]
-assignees:
-  - octocat
 body:
   - type: dropdown
     id: instance
@@ -41,4 +39,7 @@ body:
       description: This will generate a secret that will be emailed to the user (e.g. github.actor)
       options:
         - label: Enable secret (not required)
- 
+   - type: markdown
+      attributes:
+        value: |
+          ***
