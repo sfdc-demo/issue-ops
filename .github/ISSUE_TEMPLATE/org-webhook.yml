@@ -27,10 +27,10 @@ body:
       description: The webhook url
       placeholder: https://example.com/post
   - type: checkboxes
-      id: secret
-      attributes:
-        label: Secret
-        description: This will generate a secret that will be emailed to the user (e.g. github.actor)
-        options:
-          - label: enable secrets
+    id: secret
+    attributes:
+      label: Secret
+      description: This will generate a secret that will be emailed to the user (e.g. github.actor)
+      options:
+        - label: enable secrets
  
