@@ -1,5 +1,6 @@
 name: Create an organization webhook
 description: Organization webhooks allow you to receive HTTP POST payloads whenever certain events happen in a organization.
+title: Create an organization webhook
 labels: ["org", "webhook"]
 assignees:
   - octocat
