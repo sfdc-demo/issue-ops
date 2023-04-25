@@ -51,7 +51,7 @@ body:
       label: Which events would you like to trigger this webhook?
       description:
       options:
-        - label:Branch or tag creation
+        - label: Branch or tag creation
         - label: Branch or tag deletion
         - label: Branch protection rules
         - label: Check runs
