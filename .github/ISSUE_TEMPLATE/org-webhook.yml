@@ -49,60 +49,71 @@ body:
     id: terms
     attributes:
       label: Which events would you like to trigger this webhook?
-      description: For more details on events please see the [webhook events and payloads](https://docs.github.com/en/rest/orgs/webhooks?apiVersion=2022-11-28) docs
+      description: For more details on events please see the [webhook events and payloads](https://docs.github.com/en/webhooks-and-events/webhooks/webhook-events-and-payloadsthttps://docs.github.com/en/webhooks-and-events/webhooks/webhook-events-and-payloads) docs
       options:
-        - label: Branch or tag creation
-        - label: Branch or tag deletion
-        - label: Branch protection rules
-        - label: Check runs
-        - label: Check suites
-        - label: Code scanning alerts
-        - label: Collaborator add, remove, or changed
-        - label: Commit comments
-        - label: Dependabot alerts
-        - label: Deploy keys
-        - label: Deployment statuses
-        - label: Deployments
-        - label: Discussion comments
-        - label: Discussions
-        - label: Forks
-        - label: Issue comments
-        - label: Issues
-        - label: Labels
-        - label: Memberships
-        - label: Merge groups
-        - label: Meta
-        - label: Milestones
-        - label: Org blocks
-        - label: Organizations
-        - label: Packages
-        - label: Page builds
-        - label: Project cards
-        - label: Project columns
-        - label: Project v2 items
-        - label: Projects
-        - label: Projects v2
-        - label: Pull request review comments
-        - label: Pull request review threads
-        - label: Pull request reviews
-        - label: Pull requests
-        - label: Pushes
-        - label: Registry packages
-        - label: Releases
-        - label: Repositories
-        - label: Repository advisories
-        - label: Repository imports
-        - label: Repository rulesets 
-        - label: Repository vulnerability alerts
-        - label: Secret scanning alert locations
-        - label: Secret scanning alerts
-        - label: Security and analyses
-        - label: Stars
-        - label: Statuses
-        - label: Team adds
-        - label: Teams
-        - label: Visibility changes
-        - label: Watches
-        - label: Wiki
-        - label: Workflow jobs
-        - label: Workflow runs
+        - label: branch_protection_rule
+        - label: check_run
+        - label: check_suite
+        - label: code_scanning_alert
+        - label: commit_comment
+        - label: create
+        - label: delete
+        - label: dependabot_alert
+        - label: deploy_key
+        - label: deployment
+        - label: deployment_protection_rule
+        - label: deployment_status
+        - label: discussion
+        - label: discussion_comment
+        - label: fork
+        - label: github_app_authorization
+        - label: gollum
+        - label: installation
+        - label: installation_repositories
+        - label: installation_target
+        - label: issue_comment
+        - label: issues
+        - label: label
+        - label: marketplace_purchase
+        - label: member
+        - label: membership
+        - label: merge_group
+        - label: meta
+        - label: milestone
+        - label: org_block
+        - label: organization
+        - label: package
+        - label: page_build
+        - label: personal_access_token_request
+        - label: ping
+        - label: project_card
+        - label: project
+        - label: project_column
+        - label: projects_v2
+        - label: projects_v2_item
+        - label: public
+        - label: pull_request
+        - label: pull_request_review_comment
+        - label: pull_request_review
+        - label: pull_request_review_thread
+        - label: push
+        - label: registry_package
+        - label: release
+        - label: repository_advisory
+        - label: repository
+        - label: repository_dispatch
+        - label: repository_import
+        - label: repository_vulnerability_alert
+        - label: secret_scanning_alert
+        - label: secret_scanning_alert_location
+        - label: security_advisory
+        - label: security_and_analysis
+        - label: sponsorship
+        - label: star
+        - label: status
+        - label: team_add
+        - label: team
+        - label: watch
+        - label: workflow_dispatch
+        - label: workflow_job
+        - label: workflow_run
