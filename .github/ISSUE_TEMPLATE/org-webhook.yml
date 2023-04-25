@@ -1,5 +1,7 @@
 name: create an organization webhook
-description: Organization webhooks allow you to receive HTTP POST payloads whenever certain events happen in a organization.
+description: Organization webhooks allow you to receive HTTP POST payloads whenever certain events happen in a organization. Items with (8) are required
+
+
 title: "[req] create an organization webhook"
 labels: ["organization", "web hook"]
 assignees:
@@ -8,7 +10,7 @@ body:
   - type: dropdown
     id: instance
     attributes:
-      label: GitHub Instance
+      label: GitHub Instance (*)
       description: The instance of Github you're targeting. 
       options:
         - github.com
@@ -17,7 +19,7 @@ body:
   - type: input
     id: organization
     attributes:
-      label: GitHub Organization
+      label: GitHub Organization (*)
       description: The name of the github organization (must be exact)
       placeholder: ex. salesforce
   - type: input
@@ -29,7 +31,7 @@ body:
   - type: dropdown
     id: content_type
     attributes:
-      label: Content type
+      label: Content type(*)
       description: 
       options:
         - application/json
@@ -40,7 +42,7 @@ body:
       label: Secret
       description: This will generate a secret that will be emailed to the user (e.g. github.actor)
       options:
-        - label: Enable secret (not required)
+        - label: Enable secret
   - type: markdown
     attributes:
       value: |
@@ -48,7 +50,7 @@ body:
   - type: checkboxes
     id: terms
     attributes:
-      label: Which events would you like to trigger this webhook?
+      label: Which events would you like to trigger this webhook? (*)
       description: For more details on events please see the [webhook events and payloads](https://docs.github.com/en/webhooks-and-events/webhooks/webhook-events-and-payloadsthttps://docs.github.com/en/webhooks-and-events/webhooks/webhook-events-and-payloads) docs
       options:
         - label: branch_protection_rule
