@@ -45,3 +45,64 @@ body:
     attributes:
       value: |
         ***
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Which events would you like to trigger this webhook?
+      description:
+      options:
+        - label:Branch or tag creation
+        - label: Branch or tag deletion
+        - label: Branch protection rules
+        - label: Check runs
+        - label: Check suites
+        - label: Code scanning alerts
+        - label: Collaborator add, remove, or changed
+        - label: Commit comments
+        - label: Dependabot alerts
+        - label: Deploy keys
+        - label: Deployment statuses
+        - label: Deployments
+        - label: Discussion comments
+        - label: Discussions
+        - label: Forks
+        - label: Issue comments
+        - label: Issues
+        - label: Labels
+        - label: Memberships
+        - label: Merge groups
+        - label: Meta
+        - label: Milestones
+        - label: Org blocks
+        - label: Organizations
+        - label: Packages
+        - label: Page builds
+        - label: Project cards
+        - label: Project columns
+        - label: Project v2 items
+        - label: Projects
+        - label: Projects v2
+        - label: Pull request review comments
+        - label: Pull request review threads
+        - label: Pull request reviews
+        - label: Pull requests
+        - label: Pushes
+        - label: Registry packages
+        - label: Releases
+        - label: Repositories
+        - label: Repository advisories
+        - label: Repository imports
+        - label: Repository rulesets 
+        - label: Repository vulnerability alerts
+        - label: Secret scanning alert locations
+        - label: Secret scanning alerts
+        - label: Security and analyses
+        - label: Stars
+        - label: Statuses
+        - label: Team adds
+        - label: Teams
+        - label: Visibility changes
+        - label: Watches
+        - label: Wiki
+        - label: Workflow jobs
+        - label: Workflow runs
