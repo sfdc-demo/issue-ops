@@ -26,6 +26,14 @@ body:
       label: Payload URL
       description: The webhook url
       placeholder: https://example.com/post
+  - type: dropdown
+    id: content_type
+    attributes:
+      label: Content type
+      description: 
+      options:
+        - application/json
+        - application/x-www-form-urlencoded
   - type: checkboxes
     id: secret
     attributes:
