@@ -41,7 +41,7 @@ body:
       description: This will generate a secret that will be emailed to the user (e.g. github.actor)
       options:
         - label: Enable secret (not required)
-   - type: markdown
-      attributes:
-        value: |
-          ***
+  - type: markdown
+    attributes:
+      value: |
+        ***
