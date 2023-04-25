@@ -26,6 +26,7 @@ body:
       label: GitHub Repository
       description: The name of the github repository (must be exact)
       placeholder: ex. merlion
+      value: ex. merlion
   - type: input
     id: url
     attributes:
