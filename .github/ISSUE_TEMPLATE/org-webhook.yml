@@ -1,10 +1,19 @@
-name: Bug Report
-description: File a bug report
-title: "[Bug]: "
-labels: ["bug", "triage"]
+name: Create an organization webhook
+description: Organization webhooks allow you to receive HTTP POST payloads whenever certain events happen in a organization.
+title: ""
+labels: ["org", "webhook"]
 assignees:
   - octocat
 body:
+  - type: dropdown
+    id: instance
+    attributes:
+      label: instance
+      description: What instance of GitHub are you targetting?
+      options:
+        - github.com
+        - github.com EMU
+        - github enterprise (SOMA)
   - type: markdown
     attributes:
       value: |
