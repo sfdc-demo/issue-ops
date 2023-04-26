@@ -48,7 +48,7 @@ body:
       value: |
         ***
   - type: checkboxes
-    id: terms
+    id: events
     attributes:
       label: Which events would you like to trigger this webhook? (*)
       description: For more details on events please see the [webhook events and payloads](https://docs.github.com/en/webhooks-and-events/webhooks/webhook-events-and-payloadsthttps://docs.github.com/en/webhooks-and-events/webhooks/webhook-events-and-payloads) docs
