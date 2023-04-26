@@ -39,10 +39,10 @@ body:
   - type: checkboxes
     id: secret
     attributes:
-      label: secrets
-      description: If your webhook requires a secret, you will be prompted to enter a password later in the process
+      label: Secrets
+      description: Click enable to add a secret, you will be prompted to enter a password later in the process.  
       options:
-        - label: enable
+        - label: Enable
   - type: markdown
     attributes:
       value: |
