@@ -50,7 +50,7 @@ parser = argparse.ArgumentParser(
 )
 parser.add_argument(
     "-j",
-    "--json-file",
+    "--json_file",
     dest="json_file",
     type=str,
     required=True,
@@ -58,7 +58,7 @@ parser.add_argument(
 )
 parser.add_argument(
     "-k",
-    "--required-keys-file",
+    "--required_keys_file",
     dest="required_keys_file",
     type=str,
     required=True,
