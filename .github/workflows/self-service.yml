@@ -1,4 +1,4 @@
-name: issue ops
+name: issue-ops / self-service
 
 on:
   issues:
@@ -18,9 +18,9 @@ jobs:
         with:
           template-path: .github/ISSUE_TEMPLATE/org-webhook.yml
 
-      - run: cat ${HOME}/issue-parser-result.json
-
-      - run: echo $INSTANCE
-        env:
-          FAVORITE_DISH: ${{ steps.issue-parser.outputs.issueparser_instance }}
+      - run: |
+          python .github/scripts/validate_role.py \
+            --github_instance=$INSTANCE \
+            --org=$ORGANIZATION
+            --user=${{ github.actor }}
 
