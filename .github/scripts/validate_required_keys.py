@@ -15,10 +15,9 @@ def validate_required_keys(json_data, required_keys):
 
 # Function to validate values (ensure they don't match prohibited values)
 def validate_values(json_data, required_keys):
-    for i, key in enumerate(required_keys):
+    for key in required_keys:
         value = json_data.get(key)
-        prohibited_value = prohibited_values[i]
-        if str(value) == prohibited_value:
+        if str(value) in prohibited_values:
             raise ValueError(f"Prohibited value detected for key '{key}': '{value}'")
     return True
 
