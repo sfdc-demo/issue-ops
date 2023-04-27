@@ -24,7 +24,7 @@ jobs:
           ORGANIZATION: ${{ steps.issue-parser.outputs.issueparser_organization }}
         run: |
           python .github/scripts/validate_role.py \
-            --github_instance=${INSTANCE \
+            --github_instance=$INSTANCE \
             --organization=$ORGANIZATION \
             --user=${{ github.actor }}
 
