@@ -18,16 +18,25 @@ jobs:
         with:
           template-path: .github/ISSUE_TEMPLATE/org-webhook.yml
           
-      - run: cat ${HOME}/issue-parser-result.json
-
-      - name: validate required keys
-        env:
-          INSTANCE: ${{ steps.issue-parser.outputs.issueparser_instance }}
-          ORGANIZATION: ${{ steps.issue-parser.outputs.issueparser_organization }}
+      - name: validate required form entries
         run: |
           python .github/scripts/validate_required_keys.py \
             --required_keys_file=.github/ISSUE_TEMPLATE_REQUIRED_KEYS/org-webhook.yml \
             --json_file=${HOME}/issue-parser-result.json
+
+      - name: update issue with validation failure message
+        if: ${{ failure() }} 
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const issueNumber = context.issue.number;
+            const failureMessage = 'Validation failed. Please check your inputs and try again.';
+            await github.rest.issues.createComment({
+              issue_number: issueNumber,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: failureMessage,
+            });
 
       - name: validate role
         env:
