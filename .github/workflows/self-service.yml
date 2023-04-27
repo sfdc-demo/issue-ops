@@ -34,7 +34,7 @@ jobs:
           script: |
             const issueNumber = context.issue.number;
             // Use the environment variable in the script
-            const failureMessage = process.env.VALIDATION_OUTPUT || 'Validation failed. Please check your inputs and try again.';
+            const failureMessage = ${{ VALIDATION_OUTPUT }} || 'Validation failed. Please check your inputs and try again.';
             await github.rest.issues.createComment({
               issue_number: issueNumber,
               owner: context.repo.owner,
