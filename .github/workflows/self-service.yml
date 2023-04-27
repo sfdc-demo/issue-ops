@@ -26,7 +26,7 @@ jobs:
 
       - name: update issue with validation failure message
         if: ${{ failure() }} 
-        uses: actions/github-script@v5
+        uses: actions/github-script@v6
         with:
           script: |
             const issueNumber = context.issue.number;
@@ -36,12 +36,6 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: failureMessage,
-            });
-            await github.rest.issues.update({
-              issue_number: issueNumber,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              state: 'closed', # Set the issue state to 'closed'
             });
 
       - name: validate role
