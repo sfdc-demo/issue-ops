@@ -1,25 +1,28 @@
-import json
 import argparse
+import json
+import os
 
 import yaml
+
 
 # Define prohibited values
 prohibited_values = ["None", "", "None", "[]"]
 
 # Function to validate required keys
-def validate_required_keys(json_data, required_keys):
+def validate_required_keys(json_data, required_keys, errors):
     missing_keys = [key for key in required_keys if key not in json_data]
     if missing_keys:
-        raise ValueError(f"Missing required keys: {', '.join(missing_keys)}")
-    return True
+        errors['missing_keys'] = missing_keys
 
 # Function to validate values (ensure they don't match prohibited values)
-def validate_values(json_data, required_keys):
+def validate_values(json_data, required_keys, errors):
+    prohibited_value_errors = []
     for key in required_keys:
         value = json_data.get(key)
         if str(value) in prohibited_values:
-            raise ValueError(f"Prohibited value detected for key '{key}': '{value}'")
-    return True
+            prohibited_value_errors.append({key: value})
+    if prohibited_value_errors:
+        errors['prohibited_values'] = prohibited_value_errors
 
 # Function to read required keys from YAML file
 def read_required_keys(required_keys_file):
@@ -36,13 +39,24 @@ def main(json_file, required_keys_file):
     # Read required keys from YAML file
     required_keys = read_required_keys(required_keys_file)
 
+    # Initialize an empty dictionary to store errors
+    errors = {}
+
     # Validate required keys
-    validate_required_keys(json_data, required_keys)
+    validate_required_keys(json_data, required_keys, errors)
 
     # Validate values
-    validate_values(json_data, required_keys)
+    validate_values(json_data, required_keys, errors)
 
-    print("All validations passed.")
+    # Check if there are any errors
+    if errors:
+        # Convert the error dictionary to a JSON string
+        error_json = json.dumps(errors)
+        # Write the JSON string to the GITHUB_ENV file as the value of VALIDATION_ERRORS
+        with open(os.environ['GITHUB_ENV'], 'a') as file:
+            file.write(f'VALIDATION_ERRORS={error_json}\n')
+    else:
+        print("All validations passed.")
 
 parser = argparse.ArgumentParser(
     description="Validate JSON file and keys."
