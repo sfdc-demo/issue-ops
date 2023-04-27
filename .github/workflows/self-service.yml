@@ -20,11 +20,15 @@ jobs:
 
       - name: validate required form entries
         run: |
-          validation_output=$(python .github/scripts/validate_required_keys.py \
+          echo "VALIDATION_OUTPUT=$(python .github/scripts/validate_required_keys.py \
             --required_keys_file=.github/ISSUE_TEMPLATE_REQUIRED_KEYS/org-webhook.yml \
-            --json_file=${HOME}/issue-parser-result.json)
+            --json_file=${HOME}/issue-parser-result.json)" >> $GITHUB_ENV
           
-          echo "VALIDATION_OUTPUT=$validation_output" >> $GITHUB_ENV
+          #validation_output=$(python .github/scripts/validate_required_keys.py \
+          #  --required_keys_file=.github/ISSUE_TEMPLATE_REQUIRED_KEYS/org-webhook.yml \
+          #  --json_file=${HOME}/issue-parser-result.json)
+          #
+          #echo "VALIDATION_OUTPUT=$validation_output" >> $GITHUB_ENV
 
       - name: update issue with validation failure message
         if: ${{ failure() }} 
