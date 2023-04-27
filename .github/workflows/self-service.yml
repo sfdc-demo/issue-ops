@@ -12,14 +12,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: stefanbuck/github-issue-parser@v3
+
+      - name: parse issue
+        uses: stefanbuck/github-issue-parser@v3
         id: issue-parser
         with:
           template-path: .github/ISSUE_TEMPLATE/org-webhook.yml
           
       - run: cat ${HOME}/issue-parser-result.json
 
-      - env:
+      - name: validate role
+        env:
           INSTANCE: ${{ steps.issue-parser.outputs.issueparser_instance }}
           ORGANIZATION: ${{ steps.issue-parser.outputs.issueparser_organization }}
         run: |
