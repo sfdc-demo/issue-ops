@@ -50,9 +50,6 @@ def main(json_file, required_keys_file):
 
     # Check if there are any errors
     if errors:
-        # Write the JSON string to the GITHUB_ENV file as the value of VALIDATION_ERRORS
-        with open(os.environ['GITHUB_ENV'], 'a') as file:
-            file.write(f'VALIDATION_ERRORS={error_json}\n')
         print(json.dumps(errors))
     else:
         print("{}")
