@@ -52,7 +52,7 @@ def main(json_file, required_keys_file):
     if errors:
         print(json.dumps(errors))
     else:
-        print("{}")
+        print("")
 
 parser = argparse.ArgumentParser(
     description="Validate JSON file and keys."
