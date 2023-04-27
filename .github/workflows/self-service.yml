@@ -25,7 +25,7 @@ jobs:
           INSTANCE: ${{ steps.issue-parser.outputs.issueparser_instance }}
           ORGANIZATION: ${{ steps.issue-parser.outputs.issueparser_organization }}
         run: |
-          python .github/scripts/validate_required-keys.py \
+          python .github/scripts/validate_required_keys.py \
             --required_keys_file=.github/ISSUE_TEMPLATE_REQUIRED_KEYS/org-webhook.yml \
             --json_file=${HOME}/issue-parser-result.json
 
