@@ -24,10 +24,10 @@ jobs:
           # sets environment variable VALIDATION_OUTPUT on error(s)
           echo "VALIDATION_OUTPUT=$(python .github/scripts/validate_required_keys.py \
             --required_keys_file=.github/ISSUE_TEMPLATE_REQUIRED_KEYS/org-webhook.yml \
-            --json_file=${HOME}/issue-parser-result.json)
+            --json_file=${HOME}/issue-parser-result.json
           
       - name: update issue with validation failure message
-        if: env.VALIDATION_OUTPUT != "{}"
+        if: env.VALIDATION_OUTPUT != ''
         uses: actions/github-script@v6
         with:
           script: |
