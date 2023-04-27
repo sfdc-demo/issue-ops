@@ -37,6 +37,12 @@ jobs:
               repo: context.repo.repo,
               body: failureMessage,
             });
+            await github.rest.issues.update({
+              issue_number: issueNumber,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'closed', # Set the issue state to 'closed'
+            });
 
       - name: validate role
         env:
