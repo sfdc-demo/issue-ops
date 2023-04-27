@@ -71,7 +71,7 @@ parser.add_argument(
 
 args = parser.parse_args()
 
-instance_list = read_yaml_file("./github/PERMISSIONS/github.yml")
+instance_list = read_yaml_file(".github/PERMISSIONS/github.yml")
 result = find_owner(instance_list, args.github_instance, args.organization, args.user)
 
 print(result)
