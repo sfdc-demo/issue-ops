@@ -31,9 +31,9 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            console.log(process.env.VALIDATION_OUTPUT)
             const issueNumber = context.issue.number;
-            const failureMessage = process.env.VALIDATION_OUTPUT || 'Validation failed. Please check your inputs and try again.';
+            const errors = process.env.VALIDATION_OUTPUT;
+            const failureMessage = 'Validation failed. Please check your inputs and try again.\n\n```json\n' + errors + '\n```\n';
             await github.rest.issues.createComment({
               issue_number: issueNumber,
               owner: context.repo.owner,
