@@ -1,18 +1,18 @@
 github_instances:
-  - instance: github_instance_1
+  - instance: github.com
     url: https://github-instance-1.example.com
     organizations:
       - name: org1
         owners:
           - cvega
           - owner2
-  - instance: github_instance_2
+  - instance: github-emu
     url: https://github-instance-2.example.com
     organizations:
       - name: org2
         owners:
           - owner3
-  - instance: github_instance_3
+  - instance: ghes-soma
     url: https://github-instance-3.example.com
     organizations:
       - name: org3
