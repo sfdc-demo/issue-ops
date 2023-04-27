@@ -45,10 +45,26 @@ def main(json_file, required_keys_file):
 
     print("All validations passed.")
 
-# Use argparse to handle command-line arguments
-parser = argparse.ArgumentParser(description="Validate JSON file and keys.")
-parser.add_argument("json_file", help="Path to the JSON file.")
-parser.add_argument("required_keys_file", help="Path to the YAML file containing required keys.")
+parser = argparse.ArgumentParser(
+    description="Validate JSON file and keys."
+)
+parser.add_argument(
+    "-j",
+    "--json-file",
+    dest="json_file",
+    type=str,
+    required=True,
+    help="Path to the JSON file."
+)
+parser.add_argument(
+    "-k",
+    "--required-keys-file",
+    dest="required_keys_file",
+    type=str,
+    required=True,
+    help="Path to the YAML file containing required keys."
+)
+
 args = parser.parse_args()
 
 # Example usage (CLI arguments: JSON file path and required keys YAML file path)
