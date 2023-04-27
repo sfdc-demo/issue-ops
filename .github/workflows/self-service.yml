@@ -40,6 +40,8 @@ jobs:
               repo: context.repo.repo,
               body: failureMessage,
             });
+            core.setFailed('Form is missing required fields/keys')
+
 
       - name: validate role
         env:
