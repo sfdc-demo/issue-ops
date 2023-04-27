@@ -5,7 +5,6 @@ on:
     types:
       - opened
 
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,6 +16,8 @@ jobs:
         id: issue-parser
         with:
           template-path: .github/ISSUE_TEMPLATE/org-webhook.yml
+          
+      - run: cat ${HOME}/issue-parser-result.json
 
       - run: |
           python .github/scripts/validate_role.py \
