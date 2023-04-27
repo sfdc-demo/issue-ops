@@ -32,7 +32,7 @@ jobs:
         with:
           script: |
             const issueNumber = context.issue.number;
-            const errors = process.env.VALIDATION_OUTPUT;
+            const errors = JSON.stringify(process.env.VALIDATION_OUTPUT, null, 4);
             const failureMessage = 'Validation failed. Please check your inputs and try again.\n\n```json\n' + errors + '\n```\n';
             await github.rest.issues.createComment({
               issue_number: issueNumber,
