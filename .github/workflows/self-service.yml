@@ -17,12 +17,15 @@ jobs:
         id: issue-parser
         with:
           template-path: .github/ISSUE_TEMPLATE/org-webhook.yml
-          
+
       - name: validate required form entries
         run: |
-          python .github/scripts/validate_required_keys.py \
+          # Run the script and capture the output
+          validation_output=$(python .github/scripts/validate_required_keys.py \
             --required_keys_file=.github/ISSUE_TEMPLATE_REQUIRED_KEYS/org-webhook.yml \
-            --json_file=${HOME}/issue-parser-result.json
+            --json_file=${HOME}/issue-parser-result.json)
+          # Set the environment variable for subsequent steps
+          echo "VALIDATION_OUTPUT=$validation_output" >> $GITHUB_ENV
 
       - name: update issue with validation failure message
         if: ${{ failure() }} 
@@ -30,7 +33,8 @@ jobs:
         with:
           script: |
             const issueNumber = context.issue.number;
-            const failureMessage = 'Validation failed. Please check your inputs and try again.';
+            // Use the environment variable in the script
+            const failureMessage = process.env.VALIDATION_OUTPUT || 'Validation failed. Please check your inputs and try again.';
             await github.rest.issues.createComment({
               issue_number: issueNumber,
               owner: context.repo.owner,
