@@ -12,7 +12,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-
       - name: parse issue
         uses: stefanbuck/github-issue-parser@v3
         id: issue-parser
@@ -20,6 +19,15 @@ jobs:
           template-path: .github/ISSUE_TEMPLATE/org-webhook.yml
           
       - run: cat ${HOME}/issue-parser-result.json
+
+      - name: validate required keys
+        env:
+          INSTANCE: ${{ steps.issue-parser.outputs.issueparser_instance }}
+          ORGANIZATION: ${{ steps.issue-parser.outputs.issueparser_organization }}
+        run: |
+          python .github/scripts/validate_required-keys.py \
+            --required_keys_file=.github/ISSUE_TEMPLATE_REQUIRED_KEYS/org-webhook.yml \
+            --json_file=${HOME}/issue-parser-result.json
 
       - name: validate role
         env:
