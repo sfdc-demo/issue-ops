@@ -37,7 +37,7 @@ jobs:
         with:
           script: |
             const issueNumber = context.issue.number;
-            const errors = JSON.stringify(JSON.parse(process.env.FORM_VALIDATION), null, 2));
+            const errors = JSON.stringify(JSON.parse(process.env.FORM_VALIDATION), null, 2);
             const failureMessage = 'Validation failed. this likely means you're missing a required form field.\n\n```json\n' + errors + '\n```\n';
             await github.rest.issues.createComment({
               issue_number: issueNumber,
@@ -65,7 +65,7 @@ jobs:
         with:
           script: |
             const issueNumber = context.issue.number;
-            const errors = JSON.stringify(JSON.parse(process.env.ROLE_VALIDATION), null, 2));
+            const errors = JSON.stringify(JSON.parse(process.env.ROLE_VALIDATION), null, 2);
             const failureMessage = 'Validation failed. this likely means you're missing a required form field.\n\n```json\n' + errors + '\n```\n';
             await github.rest.issues.createComment({
               issue_number: issueNumber,
