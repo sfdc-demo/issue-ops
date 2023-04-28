@@ -1,6 +1,6 @@
 required_keys:
   - instance
   - organization
-  - url
+  - payload_url
   - content_type
   - events
