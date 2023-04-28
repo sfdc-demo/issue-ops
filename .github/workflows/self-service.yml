@@ -101,8 +101,10 @@ jobs:
             --yaml=.github/PERMISSIONS/github.yml \
             --json=${HOME}/issue-parser-result.json)" >> $GITHUB_ENV
 
+
       - name: login with gh cli
         run: |
+          echo ${{ secrets[format('{0}_TOKEN', steps.issue-parser.outputs.issueparser_instance)] }} > token.txt
           gh auth login \
           --hostname ${{ env.HOSTNAME }} \
-          --with-token ${{ secrets[format('{0}_TOKEN', steps.issue-parser.outputs.issueparser_instance)] }}
+          --with-token < token.txt
