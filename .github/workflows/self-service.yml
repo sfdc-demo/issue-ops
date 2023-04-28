@@ -70,7 +70,7 @@ jobs:
 
 
       - name: update issue with role validation failure message
-        if: env.ROLE_VALIDATION != '{}'
+        if: env.ROLE_VALIDATION != ''
         uses: actions/github-script@v6
         with:
           script: |
