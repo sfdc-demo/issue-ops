@@ -83,7 +83,7 @@ jobs:
         id: create_payload
         run: |
           echo "PAYLOAD=$(python .github/scripts/create_payload.py \
-            --github_yaml=${HOME}/.github/PERMISSIONS/github.yml \
+            --github_yaml=.github/PERMISSIONS/github.yml \
             --user=${{ github.actor }} \
             --issue_json=${HOME}/issue-parser-result.json \
             --issue_number=${{ github.event.issue.number }} \
