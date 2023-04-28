@@ -99,7 +99,7 @@ jobs:
         run: |
           echo "HOSTNAME=$(python .github/scripts/set_hostname.py \
             --yaml=.github/PERMISSIONS/github.yml \
-            --json=${HOME}/issue-parser-result.json") >> $GITHUB_ENV
+            --json=${HOME}/issue-parser-result.json)" >> $GITHUB_ENV
 
       - name: login with gh cli
         run: |
