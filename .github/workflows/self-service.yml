@@ -20,6 +20,9 @@ jobs:
           template-path: .github/ISSUE_TEMPLATE/org-webhook.yml
 
 
+      - run: cat ${HOME}/issue-parser-result.json
+
+
       - name: validate required form entries
         id: validate_required_keys
         run: |
@@ -29,9 +32,6 @@ jobs:
           echo "FORM_VALIDATION=$(python .github/scripts/validate_required_keys.py \
             --required_keys_file=.github/ISSUE_TEMPLATE_REQUIRED_KEYS/org-webhook.yml \
             --json_file=${HOME}/issue-parser-result.json)" >> $GITHUB_ENV
-
-
-      - run: cat ${HOME}/issue-parser-result.json
 
 
       - name: update issue with form validation failure message
