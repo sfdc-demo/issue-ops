@@ -23,7 +23,7 @@ def find_owner(instance_list, github_instance, organization_name, username):
         ),
         None,
     )
-    # Check if the instance was found.
+    # Check if the instance was found. This shouldn't happen, but it's good to check.
     if not instance:
         error_messages["instance_error"] = "Instance not found."
         return None, error_messages
@@ -40,7 +40,6 @@ def find_owner(instance_list, github_instance, organization_name, username):
     # Check if the organization was found.
     if not organization:
         error_messages["organization_error"] = "Organization not found."
-        return None, error_messages
 
     # Validate if the user is an owner of the organization.
     if username in organization["owners"] and not error_messages:
