@@ -6,6 +6,9 @@ github_instances:
         owners:
           - cvega
           - owner2
+      - name: org2
+        owners:
+          - owner3
   - instance: EMU
     url: pluehne-1682694429.gh-quality.net
     organizations:
