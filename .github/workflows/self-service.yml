@@ -84,18 +84,25 @@ jobs:
             core.setFailed('User/Role is missing required access')
 
 
-      - name: create JSON payload for workload
-        id: create_payload
+      # - name: create JSON payload for workload
+      #   id: create_payload
+      #   run: |
+      #     echo "PAYLOAD=$(python .github/scripts/create_payload.py \
+      #       --github_yaml=.github/PERMISSIONS/github.yml \
+      #       --user=${{ github.actor }} \
+      #       --issue_json=${HOME}/issue-parser-result.json \
+      #       --issue_number=${{ github.event.issue.number }} \
+      #       --issue_title='${{ github.event.issue.title }}')" >> $GITHUB_ENV
+
+
+      - name: set hostname
         run: |
-          echo "PAYLOAD=$(python .github/scripts/create_payload.py \
-            --github_yaml=.github/PERMISSIONS/github.yml \
-            --user=${{ github.actor }} \
-            --issue_json=${HOME}/issue-parser-result.json \
-            --issue_number=${{ github.event.issue.number }} \
-            --issue_title='${{ github.event.issue.title }}')" >> $GITHUB_ENV
+          echo "HOSTNAME=$(python .github/scripts/set_hostname.py \
+            --yaml=.github/PERMISSIONS/github.yml \
+            --json=${HOME}/issue-parser-result.json" >> $GITHUB_ENV
 
       - name: login with gh cli
         run: |
           gh auth login \
-          --hostname ${{ env.INSTANCE }} \
+          --hostname ${{ env.HOSTNAME }} \
           --with-token ${{ secrets[format('{0}_TOKEN', steps.issue-parser.outputs.issueparser_instance)] }}
