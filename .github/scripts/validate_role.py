@@ -1,6 +1,5 @@
 import argparse
 import json
-import sys
 
 import yaml
 
@@ -28,8 +27,9 @@ def find_owner(instance_list, github_instance, organization_name, username):
     organization = next(
         (
             org
-            for org in instance["organizations"] # type: ignore
-            if org["name"] == organization_name),
+            for org in instance["organizations"]  # type: ignore
+            if org["name"] == organization_name
+        ),
         None,
     )
     if not organization:
@@ -44,35 +44,15 @@ def find_owner(instance_list, github_instance, organization_name, username):
         return error_messages
 
 
-parser = argparse.ArgumentParser(
-    description="validate github roles"
-)
-parser.add_argument(
-    "-g",
-    "--github_instance",
-    type=str,
-    required=True,
-    help="Name of the GitHub instance",
-)
-parser.add_argument(
-    "-o",
-    "--organization",
-    type=str,
-    required=True,
-    help="Name of the organization"
-)
-parser.add_argument(
-    "-u",
-    "--user",
-    type=str,
-    required=True,
-    help="user (github.actor) to validate"
-)
+parser = argparse.ArgumentParser(description="validate github roles")
+parser.add_argument("-g", "--github_instance", type=str, required=True,help="Name of the GitHub instance",)
+parser.add_argument("-o", "--organization", type=str, required=True, help="Name of the organization")
+parser.add_argument("-u", "--user", type=str, required=True, help="user (github.actor) to validate")
 
 args = parser.parse_args()
 
 instance_list = read_yaml_file(".github/PERMISSIONS/github.yml")
-result, errors = find_owner(instance_list, args.github_instance, args.organization, args.user) # type: ignore
+result, errors = find_owner(instance_list, args.github_instance, args.organization, args.user)  # type: ignore
 
 if errors:
     print(json.dumps(errors))

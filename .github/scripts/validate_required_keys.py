@@ -8,11 +8,13 @@ import yaml
 # Define prohibited values
 prohibited_values = ["None", "", "None", "[]"]
 
+
 # Function to validate required keys
 def validate_required_keys(json_data, required_keys, errors):
     missing_keys = [key for key in required_keys if key not in json_data]
     if missing_keys:
-        errors['missing_keys'] = missing_keys
+        errors["missing_keys"] = missing_keys
+
 
 # Function to validate values (ensure they don't match prohibited values)
 def validate_values(json_data, required_keys, errors):
@@ -22,14 +24,16 @@ def validate_values(json_data, required_keys, errors):
         if str(value) in prohibited_values:
             prohibited_value_errors.append({key: value})
     if prohibited_value_errors:
-        errors['prohibited_values'] = prohibited_value_errors
+        errors["prohibited_values"] = prohibited_value_errors
+
 
 # Function to read required keys from YAML file
 def read_required_keys(required_keys_file):
     with open(required_keys_file) as f:
         data = yaml.safe_load(f)
-        required_keys = data.get('required_keys', [])
+        required_keys = data.get("required_keys", [])
     return required_keys
+
 
 # Main function to read JSON data from file and validate keys and values
 def main(json_file, required_keys_file):
@@ -54,16 +58,15 @@ def main(json_file, required_keys_file):
     else:
         print("")
 
-parser = argparse.ArgumentParser(
-    description="Validate JSON file and keys."
-)
+
+parser = argparse.ArgumentParser(description="Validate JSON file and keys.")
 parser.add_argument(
     "-j",
     "--json_file",
     dest="json_file",
     type=str,
     required=True,
-    help="Path to the JSON file."
+    help="Path to the JSON file.",
 )
 parser.add_argument(
     "-k",
@@ -71,7 +74,7 @@ parser.add_argument(
     dest="required_keys_file",
     type=str,
     required=True,
-    help="Path to the YAML file containing required keys."
+    help="Path to the YAML file containing required keys.",
 )
 
 args = parser.parse_args()

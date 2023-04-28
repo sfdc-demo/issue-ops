@@ -31,6 +31,9 @@ jobs:
             --json_file=${HOME}/issue-parser-result.json)" >> $GITHUB_ENV
 
 
+      - run: cat ${HOME}/issue-parser-result.json
+
+
       - name: update issue with form validation failure message
         if: env.FORM_VALIDATION != ''
         uses: actions/github-script@v6
@@ -74,3 +77,15 @@ jobs:
               body: failureMessage,
             });
             core.setFailed('User/Role is missing required access')
+
+
+      - name: create JSON payload for workload
+        id: create_payload
+        run: |
+          echo "PAYLOAD=$(python .github/scripts/create_payload.py \
+            --github_instance=${{ steps.issue-parser.outputs.issueparser_instance }} \
+            --organization=${{ steps.issue-parser.outputs.issueparser_organization }} \
+            --user=${{ github.actor }} \
+            --issue_json=${HOME}/issue-parser-result.json \
+            --issue_number=${{ github.event.issue.number }} \
+            --issue_title=${{ github.event.issue.title }})" >> $GITHUB_ENV
