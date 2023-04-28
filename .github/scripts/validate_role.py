@@ -72,9 +72,9 @@ parser.add_argument(
 args = parser.parse_args()
 
 instance_list = read_yaml_file(".github/PERMISSIONS/github.yml")
-result, errors = find_owner(instance_list, args.github_instance, args.organization, args.user)
+result, errors = find_owner(instance_list, args.github_instance, args.organization, args.user) # type: ignore
 
 if errors:
-    print(json.dumps(errors, indent=2))
+    print(json.dumps(errors))
 else:
     print(result)
