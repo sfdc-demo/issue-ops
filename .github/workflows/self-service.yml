@@ -89,8 +89,8 @@ jobs:
             --issue_number=${{ github.event.issue.number }} \
             --issue_title='${{ github.event.issue.title }}')" >> $GITHUB_ENV
 
-      - name: update issue with payload
-        uses: actions/github-script@v6
-        with:
-          script: |
-            console.log(process.env.PAYLOAD)
+      - name: login with gh cli
+        run: |
+          gh auth login \
+          --hostname ${{ env.INSTANCE }} \
+          --with-token ${{ secrets[format('{0}_TOKEN', steps.issue-parser.outputs.issueparser_instance)] }}

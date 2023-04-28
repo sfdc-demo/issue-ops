@@ -13,9 +13,9 @@ body:
       label: GitHub Instance (*)
       description: The instance of Github you're targeting. 
       options:
-        - github.com
-        - github-emu
-        - ghes-soma
+        - COM
+        - EMU
+        - SOMA
   - type: input
     id: organization
     attributes:
