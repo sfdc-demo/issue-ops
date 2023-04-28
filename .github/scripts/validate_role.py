@@ -10,7 +10,6 @@ def read_yaml_file(file_path):
         file_content = file.read()
     return yaml.safe_load(file_content)
 
-
 # Define a function to find the owner of a specified GitHub instance and organization.
 def find_owner(instance_list, github_instance, organization_name, username):
     error_messages = {}
@@ -37,17 +36,16 @@ def find_owner(instance_list, github_instance, organization_name, username):
         ),
         None,
     )
-    # Check if the organization was found.
-    if not organization:
-        error_messages["organization_error"] = "Organization not found."
 
     # Validate if the user is an owner of the organization.
-    if username in organization["owners"] and not error_messages:
+    if organization and username in organization["owners"] and not error_messages:
         return None, {}  # Return empty dictionary when no errors
     else:
-        error_messages["owner_error"] = "User is not an owner."
+        if not organization:
+            error_messages["organization_error"] = "Organization not found."
+        else:
+            error_messages["owner_error"] = "User is not an owner."
         return None, error_messages  # Return None as the result when errors are present
-
 
 # Set up an argument parser to handle command-line arguments.
 parser = argparse.ArgumentParser(description="validate github roles")
