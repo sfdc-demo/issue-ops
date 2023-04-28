@@ -44,10 +44,11 @@ def find_owner(instance_list, github_instance, organization_name, username):
 
     # Validate if the user is an owner of the organization.
     if username in organization["owners"] and not error_messages:
-        return None
+        return None, {}  # Return empty dictionary when no errors
     else:
         error_messages["owner_error"] = "User is not an owner."
-        return error_messages
+        return None, error_messages  # Return None as the result when errors are present
+
 
 # Set up an argument parser to handle command-line arguments.
 parser = argparse.ArgumentParser(description="validate github roles")
@@ -66,5 +67,3 @@ result, errors = find_owner(instance_list, args.github_instance, args.organizati
 # Print any errors found during the process, otherwise print "None".
 if errors:
     print(json.dumps(errors))
-else:
-    print(result)
