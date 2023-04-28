@@ -19,10 +19,12 @@ jobs:
         with:
           template-path: .github/ISSUE_TEMPLATE/org-webhook.yml
 
+
       - name: set env vars
         run: |
           echo 'cat ${HOME}/issue-parser-result.json \
           | python .github/scripts/set_env_vars.py >> $GITHUB_ENV'
+
 
       - run: cat ${HOME}/issue-parser-result.json
       - run: printenv 
@@ -108,3 +110,7 @@ jobs:
           gh auth login \
           --hostname ${{ env.HOSTNAME }} \
           --with-token < token.txt
+
+      - name: Create organization webhook
+        run: |
+          gh api orgs/${{ env.ORGANIZATION }}/hooks -X POST -f config='{"url": "${{ env.PAYLOAD_URL }}", "content_type": "${{ env.CONTENT_TYPE }}" }' -F events="${{ env.EVENTS }}"
