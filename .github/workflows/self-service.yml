@@ -83,8 +83,7 @@ jobs:
         id: create_payload
         run: |
           echo "PAYLOAD=$(python .github/scripts/create_payload.py \
-            --github_instance=${{ steps.issue-parser.outputs.issueparser_instance }} \
-            --organization=${{ steps.issue-parser.outputs.issueparser_organization }} \
+            --github_yaml=${{ steps.issue-parser.outputs.issueparser_instance }} \
             --user=${{ github.actor }} \
             --issue_json=${HOME}/issue-parser-result.json \
             --issue_number=${{ github.event.issue.number }} \
