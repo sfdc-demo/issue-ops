@@ -12,28 +12,33 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+
       - name: parse issue
         uses: stefanbuck/github-issue-parser@v3
         id: issue-parser
         with:
           template-path: .github/ISSUE_TEMPLATE/org-webhook.yml
 
+
       - name: validate required form entries
         id: validate_required_keys
         run: |
-          # sets environment variable VALIDATION_OUTPUT on error(s)
-          echo "VALIDATION_OUTPUT=$(python .github/scripts/validate_required_keys.py \
+          # sets environment variable VALIDATION_OUTPUT to empty string if
+          # validation passes or a json string of errors if validation fails
+
+          echo "FORM_VALIDATION=$(python .github/scripts/validate_required_keys.py \
             --required_keys_file=.github/ISSUE_TEMPLATE_REQUIRED_KEYS/org-webhook.yml \
             --json_file=${HOME}/issue-parser-result.json)" >> $GITHUB_ENV
-          
+
+
       - name: update issue with validation failure message
-        if: env.VALIDATION_OUTPUT != ''
+        if: env.FORM_VALIDATION != ''
         uses: actions/github-script@v6
         with:
           script: |
             const issueNumber = context.issue.number;
-            const errors = JSON.stringify(JSON.parse(process.env.VALIDATION_OUTPUT), null, 2);
-            const failureMessage = 'Validation failed. Please check your inputs and try again.\n\n```json\n' + errors + '\n```\n';
+            const errors = JSON.stringify(JSON.parse(process.env.FORM_VALIDATION), null, 2);
+            const failureMessage = 'Validation failed. this likely means you're missing a required form field.\n\n```json\n' + errors + '\n```\n';
             await github.rest.issues.createComment({
               issue_number: issueNumber,
               owner: context.repo.owner,
@@ -48,8 +53,24 @@ jobs:
           INSTANCE: ${{ steps.issue-parser.outputs.issueparser_instance }}
           ORGANIZATION: ${{ steps.issue-parser.outputs.issueparser_organization }}
         run: |
-          python .github/scripts/validate_role.py \
+          echo "ROLE_VALIDATION=$(python .github/scripts/validate_role.py \
             --github_instance=$INSTANCE \
             --organization=$ORGANIZATION \
-            --user=${{ github.actor }}
+            --user=${{ github.actor }})" >> $GITHUB_ENV
 
+
+      - name: update issue with validation failure message
+        if: env.VALIDATION_OUTPUT != ''
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const issueNumber = context.issue.number;
+            const errors = JSON.stringify(JSON.parse(process.env.VALIDATION_OUTPUT), null, 2);
+            const failureMessage = 'Validation failed. this likely means you're missing a required form field.\n\n```json\n' + errors + '\n```\n';
+            await github.rest.issues.createComment({
+              issue_number: issueNumber,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: failureMessage,
+            });
+            core.setFailed('Form is missing required fields/keys')

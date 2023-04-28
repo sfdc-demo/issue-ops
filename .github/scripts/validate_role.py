@@ -12,6 +12,7 @@ def read_yaml_file(file_path):
 
 
 def find_owner(instance_list, github_instance, organization_name, username):
+    error_messages = {}
     instance = next(
         (
             inst
@@ -21,27 +22,26 @@ def find_owner(instance_list, github_instance, organization_name, username):
         None,
     )
     if not instance:
-        sys.exit(1)
+        error_messages["instance_error"] = "Instance not found."
+        return None, error_messages
 
     organization = next(
         (
             org
-            for org in instance["organizations"]
+            for org in instance["organizations"] # type: ignore
             if org["name"] == organization_name),
         None,
     )
     if not organization:
-        sys.exit(1)
+        error_messages["organization_error"] = "Organization not found."
+        return None, error_messages
 
-    if username in organization["owners"]:
-        return json.dumps({
-            "instance": instance["instance"],
-            "url": instance["url"],
-            "name": organization["name"],
-            "owner": username,
-        })
+    # User validation
+    if username in organization["owners"] and not error_messages:
+        return None
     else:
-        sys.exit(1)
+        error_messages["owner_error"] = "User is not an owner."
+        return error_messages
 
 
 parser = argparse.ArgumentParser(
@@ -72,6 +72,9 @@ parser.add_argument(
 args = parser.parse_args()
 
 instance_list = read_yaml_file(".github/PERMISSIONS/github.yml")
-result = find_owner(instance_list, args.github_instance, args.organization, args.user)
+result, errors = find_owner(instance_list, args.github_instance, args.organization, args.user)
 
-print(result)
+if errors:
+    print(json.dumps(errors, indent=2))
+else:
+    print(result)
