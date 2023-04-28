@@ -89,3 +89,9 @@ jobs:
             --issue_json=${HOME}/issue-parser-result.json \
             --issue_number=${{ github.event.issue.number }} \
             --issue_title=${{ github.event.issue.title }})" >> $GITHUB_ENV
+
+      - name: update issue with payload
+        uses: actions/github-script@v6
+        with:
+          script: |
+            console.log(process.env.PAYLOAD)

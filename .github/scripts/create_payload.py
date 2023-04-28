@@ -26,7 +26,6 @@ def create_payload(github_yaml_file, user, issue_json_file, issue_number, issue_
 
     # Create a dictionary to store the provided arguments and modified JSON data
     payload = {
-        "github_data": github_data,
         "user": user,
         "issue_json": issue_json,
         "issue_number": issue_number,
@@ -37,18 +36,14 @@ def create_payload(github_yaml_file, user, issue_json_file, issue_number, issue_
 
 
 def main():
-    # Set up command-line argument parser
-    # Set up command-line argument parser
     parser = argparse.ArgumentParser(description='Create payload from command-line arguments.')
     parser.add_argument('-g', '--github_yaml', required=True, help='Path to GitHub YAML file')
     parser.add_argument('-u', '--user', required=True, help='User name')
     parser.add_argument('-j', '--issue_json', required=True, help='Path to issue JSON file')
     parser.add_argument('-n', '--issue_number', required=True, help='Issue number')
     parser.add_argument('-t', '--issue_title', required=True, help='Issue title')
-    # Parse command-line arguments
     args = parser.parse_args()
 
-    # Call the create_payload function with parsed arguments
     payload = create_payload(
         args.github_yaml,
         args.user,
@@ -57,7 +52,6 @@ def main():
         args.issue_title,
     )
 
-    # Print the payload dictionary as JSON
     print(json.dumps(payload))
 
 
