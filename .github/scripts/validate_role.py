@@ -42,9 +42,9 @@ def find_owner(instance_list, github_instance, organization_name, username):
         return None, {}  # Return empty dictionary when no errors
     else:
         if not organization:
-            error_messages["organization_error"] = "Organization not found."
+            error_messages["organization_error"] = "organization not found."
         if username not in organization["owners"]:
-            error_messages["owner_error"] = "User is not an owner."
+            error_messages["owner_error"] = "user does not have permissions to perform this action."
         return None, error_messages  # Return None as the result when errors are present
 
 # Set up an argument parser to handle command-line arguments.
