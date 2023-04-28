@@ -43,7 +43,7 @@ def find_owner(instance_list, github_instance, organization_name, username):
     else:
         if not organization:
             error_messages["organization_error"] = "Organization not found."
-        else:
+        if username not in organization["owners"]:
             error_messages["owner_error"] = "User is not an owner."
         return None, error_messages  # Return None as the result when errors are present
 
