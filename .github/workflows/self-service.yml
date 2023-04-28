@@ -25,6 +25,7 @@ jobs:
           | python .github/scripts/set_env_vars.py >> $GITHUB_ENV'
 
       - run: cat ${HOME}/issue-parser-result.json
+      - run: printenv 
 
 
       - name: validate required form entries
