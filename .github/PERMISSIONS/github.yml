@@ -2,7 +2,7 @@ github_instances:
   - instance: COM
     url: github.com
     organizations:
-      - name: sdfc-demo
+      - name: sfdc-demo
         owners:
           - cvega
           - owner2
