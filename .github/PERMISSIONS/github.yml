@@ -8,7 +8,7 @@ github_instances:
           - owner2
       - name: org2
         owners:
-          - owner3
+          - owner3  
   - instance: EMU
     url: pluehne-1682694429.gh-quality.net
     organizations:
