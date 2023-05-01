@@ -10,11 +10,11 @@ github_instances:
         owners:
           - owner3  
   - instance: EMU
-    url: pluehne-1682694429.gh-quality.net
+    url: cvega-020f35ca452daa2a8.ghe-test.ninja
     organizations:
       - name: org2
         owners:
-          - owner3
+          - cvega
   - instance: SOMA
     url: https://github-instance-3.example.com
     organizations:
