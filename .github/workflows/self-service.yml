@@ -118,4 +118,15 @@ jobs:
           CONTENT_TYPE: ${{ steps.issue-parser.outputs.issueparser_content_type }}
           EVENTS: ${{ steps.issue-parser.outputs.issueparser_events }}
         run: |
-          gh api orgs/${{ env.ORGANIZATION }}/hooks  -f config='{"name": "test", "active": true, "url": "${{ env.PAYLOAD_URL }}", "content_type": "json" }' -f events="[${{ env.EVENTS }}]"
+          gh api orgs/${{ env.ORGANIZATION }}/hooks  \
+            --input - <<< '{
+              "name": "${{ env.ORGANIZATION }}-webhook }}",
+              "active": true,
+              "events": [
+                "watch"
+              ],
+              "config": {
+                "url": "${{ env.PAYLOAD_URL }}",
+                "content_type": "json"
+              }
+            }'
