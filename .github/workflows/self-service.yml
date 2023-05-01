@@ -118,4 +118,4 @@ jobs:
           CONTENT_TYPE: ${{ steps.issue-parser.outputs.issueparser_content_type }}
           EVENTS: ${{ steps.issue-parser.outputs.issueparser_events }}
         run: |
-          gh api orgs/${{ env.ORGANIZATION }}/hooks -X POST -f config='{"url": \"${{ env.PAYLOAD_URL }}", "content_type": "${{ env.CONTENT_TYPE }}" }' -F events="[${{ env.EVENTS }}]"
+          gh api orgs/${{ env.ORGANIZATION }}/hooks -X POST -f config='{"url": "${{ env.PAYLOAD_URL }}", "content_type": "${{ env.CONTENT_TYPE }}" }' -F events="[${{ env.EVENTS }}]"
