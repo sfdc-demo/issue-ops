@@ -120,7 +120,7 @@ jobs:
         run: |
           gh api orgs/${{ env.ORGANIZATION }}/hooks  \
             --input - <<< '{
-              "name": "${{ env.ORGANIZATION }}-webhook }}",
+              "name": "${{ env.ORGANIZATION }}-webhook",
               "active": true,
               "events": [
                 "watch"
