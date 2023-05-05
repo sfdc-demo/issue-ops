@@ -34,8 +34,8 @@ body:
       label: Content type(*)
       description: 
       options:
-        - application/json
-        - application/x-www-form-urlencoded
+        - json
+        - form
   - type: checkboxes
     id: secret
     attributes:
@@ -43,6 +43,13 @@ body:
       description: Click enable to add a secret, you will be prompted to enter a password later in the process.  
       options:
         - label: Enable
+  - type: checkboxes
+    id: active
+    attributes:
+      label: Active
+      description: Determines if notifications are sent when the webhook is triggered. Check to send notifications.
+      options:
+        - label: true
   - type: markdown
     attributes:
       value: |
