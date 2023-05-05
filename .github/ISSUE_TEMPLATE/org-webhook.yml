@@ -49,7 +49,7 @@ body:
       label: Active
       description: Determines if notifications are sent when the webhook is triggered. Check to send notifications.
       options:
-        - label: True
+        - label: Enable
   - type: markdown
     attributes:
       value: |
