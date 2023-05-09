@@ -102,7 +102,7 @@ jobs:
         run: |
           echo ${{ secrets[format('{0}_TOKEN', steps.issue-parser.outputs.issueparser_instance)] }} > token.txt
           gh auth login \
-          --hostname ${{ steps.set-instance-hostname.outputs.result }} \
+          --hostname ${{ steps.set-instance-hostname.outputs.hostname }} \
           --with-token < token.txt
 
 
