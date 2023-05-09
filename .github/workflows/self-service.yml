@@ -116,6 +116,6 @@ jobs:
               "events": '$EVENTS_JSON',
               "config": {
                 "url": "${{ steps.issue-parser.outputs.issueparser_payload_url }}",
-                "content_type": "${{ steps.issue-parser.outputs.issueparser_content_type }}""
+                "content_type": "${{ steps.issue-parser.outputs.issueparser_content_type }}"
               }
             }' 
