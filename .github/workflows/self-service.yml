@@ -30,13 +30,13 @@ jobs:
         id: issue-type
         run: |
             echo "ISSUE_TYPE=$(python .github/scripts/validate_issue_type.py \
-              --string='${{ steps.issue-labels.outputs.result }}')" >> $GITHUB_ENV
+              --string='${{ steps.issue-labels.outputs.result }}')" >> $GITHUB_OUTPUT
 
       - name: parse issue input
         uses: stefanbuck/github-issue-parser@v3
         id: issue-parser
         with:
-          template-path: .github/ISSUE_TEMPLATE/${{ env.ISSUE_TYPE }}.yml
+          template-path: .github/ISSUE_TEMPLATE/${{ steps.issue-type.outputs.result }}.yml
 
 
       - name: set env vars
