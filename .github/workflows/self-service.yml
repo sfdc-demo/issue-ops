@@ -15,7 +15,7 @@ jobs:
       # we use issue labels to determine the type of issue
       - name: get issue labels
         uses: actions/github-script@v6
-        id: get-issue-labels
+        id: issue-labels
         with:
           script: |
             const issue = await github.rest.issues.get({
@@ -29,13 +29,13 @@ jobs:
         id: issue-type
         run: |
             echo "ISSUE_TYPE=$(python .github/scripts/validate_issue_type.py \
-              --labels='${{ steps.get-issue-labels.outputs.result }}')" >> $GITHUB_ENV
+              --labels='${{ steps.issue-labels.outputs.result }}')" >> $GITHUB_ENV
 
       - name: parse issue input
         uses: stefanbuck/github-issue-parser@v3
         id: issue-parser
         with:
-          template-path: .github/ISSUE_TEMPLATE/${{ steps.get-issue-type.outputs.result }}.yml
+          template-path: .github/ISSUE_TEMPLATE/${{ steps.issue-type.outputs.result }}.yml
 
 
       - name: set env vars
