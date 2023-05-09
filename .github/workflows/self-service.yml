@@ -39,12 +39,10 @@ jobs:
       - name: validate required form entries
         id: validate-required-keys
         run: |
-          # sets environment variable VALIDATION_OUTPUT to empty string if
-          # validation passes or a json string of errors if validation fails
-
           echo "FORM_VALIDATION=$(python .github/scripts/validate_required_keys.py \
             --required_keys_file=.github/ISSUE_TEMPLATE_REQUIRED_KEYS/${{ steps.issue-labels.outputs.result }}.yml \
             --json_file=${HOME}/issue-parser-result.json)" >> $GITHUB_OUTPUT
+
 
       # if the validation step above fails, this step will update the issue with a message indicating the missing or wrong fields
       - name: update issue with form validation failure message
@@ -63,6 +61,7 @@ jobs:
             });
             core.setFailed('Form is missing required fields/keys')
 
+
       # this step will validate that the user has the required role to perform the operation
       - name: validate role and permissions
         id: validate-permissions
@@ -71,6 +70,7 @@ jobs:
             --github_instance=${{ steps.issue-parser.outputs.issueparser_instance }} \
             --organization=${{ steps.issue-parser.outputs.issueparser_organization }} \
             --user=${{ github.actor }})" >> $GITHUB_OUTPUT
+
 
       # this step will update the issue with a message indicating the user does not have permissions to perform the operation
       - name: update issue with role validation failure message
@@ -109,18 +109,16 @@ jobs:
 
       - name: Create organization webhook
         env:
-          ORGANIZATION: ${{ steps.issue-parser.outputs.issueparser_organization }}
-          PAYLOAD_URL: ${{ steps.issue-parser.outputs.issueparser_payload_url }}
-          CONTENT_TYPE: ${{ steps.issue-parser.outputs.issueparser_content_type }}
           EVENTS: ${{ steps.issue-parser.outputs.issueparser_events }}
         run: |
-          gh api orgs/${{ env.ORGANIZATION }}/hooks  \
+          EVENTS_JSON=$(echo "$EVENTS" | jq -R 'split(",")')
+          gh api orgs/${{ steps.issue-parser.outputs.issueparser_organization }}/hooks  \
             --input - <<< '{
               "name": "web",
               "active": true,
-              "events": ${{ steps.issue-parser.outputs.issueparser_events }},
+              "events": '"$EVENTS_JSON"',
               "config": {
-                "url": "${{ env.PAYLOAD_URL }}",
-                "content_type": "json"
+                "url": "${{ steps.issue-parser.outputs.issueparser_payload_url }}",
+                "content_type": "${{ steps.issue-parser.outputs.issueparser_content_type }}""
               }
             }'
