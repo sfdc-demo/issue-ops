@@ -12,7 +12,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # we use issue labels to determine the type of issue
+
+      # we use an issue label to determine the type of issue
       - name: get issue labels
         uses: actions/github-script@v6
         id: issue-labels
@@ -26,17 +27,12 @@ jobs:
             return issue.data.labels.map(label => label.name);
           result-encoding: string
 
-      - name: parse and validate issue type from labels
-        id: issue-type
-        run: |
-            echo "ISSUE_TYPE=$(python .github/scripts/validate_issue_type.py \
-              --string='${{ steps.issue-labels.outputs.result }}')" >> $GITHUB_OUTPUT
 
       - name: parse issue input
         uses: stefanbuck/github-issue-parser@v3
         id: issue-parser
         with:
-          template-path: .github/ISSUE_TEMPLATE/${{ steps.issue-type.outputs.issue_type }}.yml
+          template-path: .github/ISSUE_TEMPLATE/${{ steps.issue-labels.outputs.result }}.yml
 
 
       - name: set env vars
@@ -57,7 +53,7 @@ jobs:
 
           echo "FORM_VALIDATION=$(python .github/scripts/validate_required_keys.py \
             --required_keys_file=.github/ISSUE_TEMPLATE_REQUIRED_KEYS/org-webhook.yml \
-            --json_file=${HOME}/issue-parser-result.json)" >> $GITHUB_ENV
+            --json_file=${HOME}/issue-parser-result.json)" >> $GITHUB_OUTPUT
 
 
       - name: update issue with form validation failure message
@@ -66,7 +62,7 @@ jobs:
         with:
           script: |
             const issueNumber = context.issue.number;
-            const errors = JSON.stringify(JSON.parse(process.env.FORM_VALIDATION), null, 2);
+            const errors = JSON.stringify(JSON.parse(${{ steps.validate_required_keys.outputs.form_validation }}), null, 2);
             const failureMessage = 'Validation failed. This likely means you are missing a required form field.\n\n```json\n' + errors + '\n```\n';
             await github.rest.issues.createComment({
               issue_number: issueNumber,
