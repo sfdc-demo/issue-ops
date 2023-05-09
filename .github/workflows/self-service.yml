@@ -63,7 +63,7 @@ jobs:
         with:
           script: |
             const issueNumber = context.issue.number;
-            const errors = JSON.stringify(${{ toJSON(steps.validate-required-keys.outputs.form_validation) }}, null, 2);
+            const errors = toJSON( ${{ steps.validate-required-keys.outputs.form_validation }});
             const failureMessage = 'Validation failed. This likely means you are missing a required form field.\n\n```json\n' + errors + '\n```\n';
             await github.rest.issues.createComment({
               issue_number: issueNumber,
