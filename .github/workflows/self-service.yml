@@ -30,7 +30,7 @@ jobs:
         id: issue-type
         run: |
             echo "ISSUE_TYPE=$(python .github/scripts/validate_issue_type.py \
-              --json='${{ steps.issue-labels.outputs.result }}')" >> $GITHUB_ENV
+              --string='${{ steps.issue-labels.outputs.result }}')" >> $GITHUB_ENV
 
       - name: parse issue input
         uses: stefanbuck/github-issue-parser@v3
