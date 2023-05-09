@@ -30,7 +30,7 @@ body:
     id: content_type
     attributes:
       label: Content type(*)
-      description: 
+      description: The content type of the webhook
       options:
         - json
         - form

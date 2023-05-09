@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # we use issue labels to determine the type of issue throughtout the workflow
+      # we use issue labels to determine the type of issue
       - name: get issue labels
         uses: actions/github-script@v6
         id: get-issue-labels
@@ -28,13 +28,14 @@ jobs:
       - name: parse and validate issue type from labels
         id: issue-type
         run: |
-           echo "${{ steps.get-issue-labels.outputs.result }}"
+            echo "ISSUE_TYPE=$(python .github/scripts/validate_issue_type.py \
+              --labels='${{ steps.get-issue-labels.outputs.result }}')" >> $GITHUB_ENV
 
       - name: parse issue input
         uses: stefanbuck/github-issue-parser@v3
         id: issue-parser
         with:
-          template-path: .github/ISSUE_TEMPLATE/org-webhook.yml
+          template-path: .github/ISSUE_TEMPLATE/${{ steps.get-issue-type.outputs.result }}.yml
 
 
       - name: set env vars
