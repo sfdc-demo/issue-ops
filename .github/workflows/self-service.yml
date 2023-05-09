@@ -52,12 +52,12 @@ jobs:
           # validation passes or a json string of errors if validation fails
 
           echo "FORM_VALIDATION=$(python .github/scripts/validate_required_keys.py \
-            --required_keys_file=.github/ISSUE_TEMPLATE_REQUIRED_KEYS/org-webhook.yml \
+            --required_keys_file=.github/ISSUE_TEMPLATE_REQUIRED_KEYS/${{ steps.issue-labels.outputs.result }}.yml \
             --json_file=${HOME}/issue-parser-result.json)" >> $GITHUB_OUTPUT
 
 
       - name: update issue with form validation failure message
-        if: env.FORM_VALIDATION != ''
+        if: ${{ steps.validate_required_keys.outputs.form_validation }} != ''
         uses: actions/github-script@v6
         with:
           script: |
