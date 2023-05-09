@@ -12,8 +12,27 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      # we use issue labels to determine the type of issue throughtout the workflow
+      - name: get issue labels
+        uses: actions/github-script@v6
+        id: get-issue-labels
+        with:
+          script: |
+            const issueNumber = ${{ github.event.inputs.issueNumber }};
+            const issue = await github.rest.issues.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber
+            });
+            return issue.data.labels.map(label => label.name);
+          result-encoding: string
 
-      - name: parse issue
+      - name: parse and validate issue type from labels
+        id: issue-type
+        run: |
+           echo "${{ steps.get-labels.outputs.result }}"
+
+      - name: parse issue input
         uses: stefanbuck/github-issue-parser@v3
         id: issue-parser
         with:
