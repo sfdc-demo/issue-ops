@@ -1,0 +1,15 @@
+{
+  "instance": "COM",
+  "organization": "org1",
+  "payload_url": "https://example.com/post",
+  "content_type": "json",
+  "secret": [],
+  "active": [
+    "Enable"
+  ],
+  "events": [
+    "branch_protection_rule",
+    "check_run",
+    "check_suite"
+  ]
+}
