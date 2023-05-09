@@ -113,9 +113,9 @@ jobs:
             --input - <<< '{
               "name": "web",
               "active": true,
-              "events": [${{ toJSON(join(steps.issue-parser.outputs.issueparser_events, ',')) }}],
+              "events": '$EVENTS_JSON',
               "config": {
                 "url": "${{ steps.issue-parser.outputs.issueparser_payload_url }}",
                 "content_type": "${{ steps.issue-parser.outputs.issueparser_content_type }}""
               }
-            }'
+            }' 
