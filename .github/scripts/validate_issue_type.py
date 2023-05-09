@@ -23,7 +23,6 @@ def main():
     args = parser.parse_args()
 
     result = check_elements(args.string)
-    print(result)
 
 if __name__ == "__main__":
     main()
