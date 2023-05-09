@@ -114,7 +114,7 @@ jobs:
           gh api orgs/${{ steps.issue-parser.outputs.issueparser_organization }}/hooks  \
             --input - <<< '{
               "name": "web",
-              "active": true,
+              "active": '$([[ ${{ steps.issue-parser.outputs.issueparser_active }} == "Enabled" ]] && result="true" || result="false"; echo $result'),
               "events": '$(echo "${{ steps.issue-parser.outputs.issueparser_events }}" | jq -Rc 'split(",")')',
               "config": {
                 "url": "${{ steps.issue-parser.outputs.issueparser_payload_url }}",
