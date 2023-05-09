@@ -1,4 +1,4 @@
-name: issue-ops / self-service
+name: self-service
 
 on:
   issues:
@@ -6,13 +6,13 @@ on:
       - opened
 
 jobs:
-  build:
+  issue_ops:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
 
-
+      # we key off the label to determine which issue template/workflow to use/parse
       - name: get issue labels
         uses: actions/github-script@v6
         id: issue-labels
@@ -28,6 +28,7 @@ jobs:
 
 
       # parse the issue template into a json object
+      # template-path is not required but highly recommended, we should be explcit about which template we are using
       - name: parse issue input
         uses: stefanbuck/github-issue-parser@v3
         id: issue-parser
@@ -35,7 +36,7 @@ jobs:
           template-path: .github/ISSUE_TEMPLATE/${{ steps.issue-labels.outputs.result }}.yml
 
 
-      # this step will validate that required fields are present in the issue body
+      # validate that required fields are present in the issue body
       - name: validate required form entries
         id: validate-required-keys
         run: |
@@ -62,7 +63,7 @@ jobs:
             core.setFailed('Form is missing required fields/keys')
 
 
-      # this step will validate that the user has the required role to perform the operation
+      # validate that the user has the required role to perform the operation
       - name: validate role and permissions
         id: validate-permissions
         run: |
@@ -72,7 +73,7 @@ jobs:
             --user=${{ github.actor }})" >> $GITHUB_OUTPUT
 
 
-      # this step will update the issue with a message indicating the user does not have permissions to perform the operation
+      # update the issue with a message indicating the user does not have permissions to perform the operation
       - name: update issue with role validation failure message
         if: steps.validate-permissions.outputs.result != ''
         uses: actions/github-script@v6
@@ -90,6 +91,7 @@ jobs:
             core.setFailed('User/Role is missing required access')
 
 
+      # set the instance hostname for authentication
       - name: set instance hostname for authentication
         id: set-instance-hostname
         run: |
@@ -98,6 +100,7 @@ jobs:
             --json=${HOME}/issue-parser-result.json)" >> $GITHUB_OUTPUT
 
 
+      # login to the instance using the gh cli
       - name: login with gh cli
         run: |
           echo ${{ secrets[format('{0}_TOKEN', steps.issue-parser.outputs.issueparser_instance)] }} > token.txt
