@@ -104,7 +104,6 @@ jobs:
           gh auth login \
           --hostname ${{ steps.set-instance-hostname.outputs.hostname }} \
           --with-token < token.txt
-          rm token.txt
 
 
       - name: Create organization webhook
