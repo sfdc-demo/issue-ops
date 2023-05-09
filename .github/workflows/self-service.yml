@@ -86,7 +86,7 @@ jobs:
 
 
       - name: update issue with role validation failure message
-        if: ${{ steps.validate_role.outputs.role_validation }} != ''
+        if: ${{ steps.validate-role.outputs.role_validation }} != ''
         uses: actions/github-script@v6
         with:
           script: |
