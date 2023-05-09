@@ -47,9 +47,8 @@ jobs:
 
       - run: cat ${HOME}/issue-parser-result.json
       - run: printenv
-      - run: echo $GITHUB_OUTPUT
 
-
+      
       - name: validate required form entries
         id: validate_required_keys
         run: |
