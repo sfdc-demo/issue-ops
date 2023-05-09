@@ -36,7 +36,7 @@ jobs:
         uses: stefanbuck/github-issue-parser@v3
         id: issue-parser
         with:
-          template-path: .github/ISSUE_TEMPLATE/${{ steps.issue-type.outputs.result }}.yml
+          template-path: .github/ISSUE_TEMPLATE/${{ env.ISSUE_TYPE }}.yml
 
 
       - name: set env vars
