@@ -74,6 +74,7 @@ jobs:
 
 
       - name: validate role
+        id: validate-role
         env:
           INSTANCE: ${{ steps.issue-parser.outputs.issueparser_instance }}
           ORGANIZATION: ${{ steps.issue-parser.outputs.issueparser_organization }}
@@ -81,16 +82,16 @@ jobs:
           echo "ROLE_VALIDATION=$(python .github/scripts/validate_role.py \
             --github_instance=$INSTANCE \
             --organization=$ORGANIZATION \
-            --user=${{ github.actor }})" >> $GITHUB_ENV
+            --user=${{ github.actor }})" >> $GITHUB_OUTPUT
 
 
       - name: update issue with role validation failure message
-        if: env.ROLE_VALIDATION != ''
+        if: ${{ steps.validate_role.outputs.role_validation }} != ''
         uses: actions/github-script@v6
         with:
           script: |
             const issueNumber = context.issue.number;
-            const errors = JSON.stringify(JSON.parse(process.env.ROLE_VALIDATION), null, 2);
+            const errors = JSON.stringify(JSON.parse(${{ steps.validate-role.outputs.role_validation }}), null, 2);
             const failureMessage = 'Validation failed. You do not have the access required to perform this operation.\n\n```json\n' + errors + '\n```\n';
             await github.rest.issues.createComment({
               issue_number: issueNumber,
