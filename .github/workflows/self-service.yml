@@ -91,7 +91,7 @@ jobs:
 
 
       - name: set instance hostname for authentication
-        id: set-instance-hostname
+        id: hostname
         run: |
           echo "HOSTNAME=$(python .github/scripts/set_hostname.py \
             --yaml=.github/PERMISSIONS/github.yml \
