@@ -24,6 +24,7 @@ jobs:
               issue_number: context.issue.number
             });
             return issue.data.labels.map(label => label.name);
+          result-encoding: string
 
       - name: parse and validate issue type from labels
         id: issue-type
