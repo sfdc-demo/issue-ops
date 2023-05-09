@@ -108,15 +108,13 @@ jobs:
 
 
       - name: Create organization webhook
-        env:
-          EVENTS: ${{ steps.issue-parser.outputs.issueparser_events }}
         run: |
-          EVENTS_JSON=$(echo "$EVENTS" | jq -R 'split(",")')
+          EVENTS_JSON=$(echo "${{ steps.issue-parser.outputs.issueparser_events }}" | jq -R 'split(",")')
           gh api orgs/${{ steps.issue-parser.outputs.issueparser_organization }}/hooks  \
             --input - <<< '{
               "name": "web",
               "active": true,
-              "events": "$EVENTS_JSON",
+              "events": $EVENTS_JSON,
               "config": {
                 "url": "${{ steps.issue-parser.outputs.issueparser_payload_url }}",
                 "content_type": "${{ steps.issue-parser.outputs.issueparser_content_type }}""
