@@ -18,11 +18,10 @@ jobs:
         id: get-issue-labels
         with:
           script: |
-            const issueNumber = ${{ github.event.inputs.issueNumber }};
             const issue = await github.rest.issues.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: issueNumber
+              issue_number: context.issue.number
             });
             return issue.data.labels.map(label => label.name);
           result-encoding: string
@@ -30,7 +29,7 @@ jobs:
       - name: parse and validate issue type from labels
         id: issue-type
         run: |
-           echo "${{ steps.get-labels.outputs.result }}"
+           echo "${{ steps.get-issue-labels.outputs.result }}"
 
       - name: parse issue input
         uses: stefanbuck/github-issue-parser@v3
