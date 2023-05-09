@@ -87,12 +87,12 @@ jobs:
 
 
       - name: update issue with role validation failure message
-        if: ${{ steps.validate-role.outputs.role_validation }} != ''
+        if: steps.validate-role.outputs.result != ''
         uses: actions/github-script@v6
         with:
           script: |
             const issueNumber = context.issue.number;
-            const errors = JSON.stringify(JSON.parse(${{ steps.validate-role.outputs.role_validation }}), null, 2);
+            const errors = ${{ toJSON(steps.validate-role.outputs.role_validation) }};
             const failureMessage = 'Validation failed. You do not have the access required to perform this operation.\n\n```json\n' + errors + '\n```\n';
             await github.rest.issues.createComment({
               issue_number: issueNumber,
