@@ -58,7 +58,7 @@ jobs:
       - run: echo ${{ steps.validate-required-keys.outputs.form_validation }}
 
       - name: update issue with form validation failure message
-        if: ${{ steps.validate-required-keys.outputs.result }} != ''
+        if: steps.validate-required-keys.outputs.result != ''
         uses: actions/github-script@v6
         with:
           script: |
