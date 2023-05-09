@@ -108,7 +108,7 @@ jobs:
 
       - name: Create organization webhook
         run: |
-          EVENTS_JSON=$(echo "${{ steps.issue-parser.outputs.issueparser_events }}" | jq -R 'split(",")')
+          EVENTS_JSON=$(echo "${{ steps.issue-parser.outputs.issueparser_events }}" | jq -Rc 'split(",")')
           gh api orgs/${{ steps.issue-parser.outputs.issueparser_organization }}/hooks  \
             --input - <<< '{
               "name": "web",
