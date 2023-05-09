@@ -91,7 +91,7 @@ jobs:
 
 
       - name: set instance hostname for authentication
-        id: hostname
+        id: set-instance-hostname
         run: |
           echo "HOSTNAME=$(python .github/scripts/set_hostname.py \
             --yaml=.github/PERMISSIONS/github.yml \
@@ -102,7 +102,7 @@ jobs:
         run: |
           echo ${{ secrets[format('{0}_TOKEN', steps.issue-parser.outputs.issueparser_instance)] }} > token.txt
           gh auth login \
-          --hostname ${{ steps.set-instance-hostname.outputs.hostname }} \
+          --hostname ${{ steps.set-instance-hostname.outputs.result }} \
           --with-token < token.txt
 
 
