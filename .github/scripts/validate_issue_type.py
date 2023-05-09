@@ -1,9 +1,9 @@
 import argparse
 import json
 
-def check_elements(json_string):
+def check_elements(input_string):
     # Load the JSON string into a Python list
-    data = json.loads(json_string)
+    data = input_string.split(',')
     # Convert list to a set
     data_set = set(data)
 
@@ -17,12 +17,12 @@ def check_elements(json_string):
         return "invalid issue type"
 
 def main():
-    parser = argparse.ArgumentParser(description='Check for specific elements in a JSON string.')
-    parser.add_argument('-j', '--json', required=True, help='The JSON string to check.')
+    parser = argparse.ArgumentParser(description='Check for specific elements in a comma-separated string.')
+    parser.add_argument('-s', '--string', required=True, help='The comma-separated string to check.')
 
     args = parser.parse_args()
 
-    result = check_elements(args.json)
+    result = check_elements(args.string)
     print(result)
 
 if __name__ == "__main__":
