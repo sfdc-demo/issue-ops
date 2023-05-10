@@ -109,7 +109,7 @@ jobs:
           --with-token < token.txt
 
 
-      - name: Create organization webhook
+      - name: create organization webhook
         if: steps.issue-labels.outputs.result == 'org-webhook'
         run: |
           gh api orgs/${{ steps.issue-parser.outputs.issueparser_organization }}/hooks \
@@ -124,10 +124,10 @@ jobs:
             }'
 
 
-      - name: Create repository webhook
+      - name: create repository webhook
         if: steps.issue-labels.outputs.result == 'repo-webhook'
         run: |
-          gh api repo/${{ steps.issue-parser.outputs.issueparser_organization }}/${{ steps.issue-parser.outputs.issueparser_repository }}/hooks \
+          gh api repos/${{ steps.issue-parser.outputs.issueparser_organization }}/${{ steps.issue-parser.outputs.issueparser_repository }}/hooks \
             --input - <<< '{
               "name": "web",
               "active": '$( [[ ${{ steps.issue-parser.outputs.issueparser_active }} == "Enabled" ]] && echo true || echo false )',
