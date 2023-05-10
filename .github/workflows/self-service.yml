@@ -41,8 +41,8 @@ jobs:
         id: validate-form
         run: |
           echo "FORM=$(python .github/scripts/validate_form.py \
-            --yaml=.github/ISSUE_TEMPLATE_REQUIRED_KEYS/${{ steps.issue-labels.outputs.result }}.yml \
-            --json=${HOME}/issue-parser-result.json)" >> $GITHUB_OUTPUT
+            --required_keys_file=.github/ISSUE_TEMPLATE_REQUIRED_KEYS/${{ steps.issue-labels.outputs.result }}.yml \
+            --json_file=${HOME}/issue-parser-result.json)" >> $GITHUB_OUTPUT
 
 
       # if the validation step above fails, this step will update the issue with a message indicating the missing or wrong fields
@@ -143,7 +143,7 @@ jobs:
         if: steps.issue-labels.outputs.result == 'repo-create'
         run: |
           gh repo create \
-            ${{ steps.issue-parser.outputs.issueparser_name }} \
+            ${{ steps.issue-parser.outputs.issueparser_repository }} \
             --${{ steps.issue-parser.outputs.issueparser_visibility }} \
             $( [[ ${{ steps.issue-parser.outputs.issueparser_readme }} == "Enabled" ]] && echo --add-readme ) \
             --description ${{ steps.issue-parser.outputs.issueparser_description }}
