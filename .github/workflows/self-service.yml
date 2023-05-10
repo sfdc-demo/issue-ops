@@ -35,7 +35,7 @@ jobs:
         with:
           template-path: .github/ISSUE_TEMPLATE/${{ steps.issue-labels.outputs.result }}.yml
 
-      - run: echo $HOME/issue-parser-result.json
+      - run: cat $HOME/issue-parser-result.json
 
       # validate that required fields are present in the issue body
       - name: validate required form entries
