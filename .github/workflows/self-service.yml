@@ -110,7 +110,7 @@ jobs:
           --with-token < token.txt
 
 
-      - name: create organization webhook
+      - name: create an organization webhook
         if: steps.issue-labels.outputs.result == 'org-webhook'
         run: |
           gh api orgs/${{ steps.issue-parser.outputs.issueparser_organization }}/hooks \
@@ -125,7 +125,7 @@ jobs:
             }'
 
 
-      - name: create repository webhook
+      - name: create a repository webhook
         if: steps.issue-labels.outputs.result == 'repo-webhook'
         run: |
           gh api repos/${{ steps.issue-parser.outputs.issueparser_organization }}/${{ steps.issue-parser.outputs.issueparser_repository }}/hooks \
@@ -143,7 +143,7 @@ jobs:
       - name: archive a repository
         if: steps.issue-labels.outputs.result == 'repo-archive'
         run: |
-          gh api repos/${{ steps.issue-parser.outputs.issueparser_organization }}/${{ steps.issue-parser.outputs.issueparser_repository }}
+          gh api repos/${{ steps.issue-parser.outputs.issueparser_organization }}/${{ steps.issue-parser.outputs.issueparser_repository }} \
             --input - <<< '{
               "archived": true
             }'
