@@ -48,7 +48,7 @@ jobs:
 
       # if the validation step above fails, this step will update the issue with a message indicating the missing or wrong fields
       - name: update issue with form validation failure message
-        if: steps.validate-required-keys.outputs.result != ''
+        if: steps.validate-required-keys.outputs.form_validation != ''
         uses: actions/github-script@v6
         with:
           script: |
@@ -76,7 +76,7 @@ jobs:
 
       # update the issue with a message indicating the user does not have permissions to perform the operation
       - name: update issue with role validation failure message
-        if: steps.validate-permissions.outputs.result != ''
+        if: steps.validate-permissions.outputs.permission_validation != ''
         uses: actions/github-script@v6
         with:
           script: |
