@@ -1,6 +1,6 @@
-name: create a repository webhook
-description: Repository webhooks allow you to receive HTTP POST payloads whenever certain events happen in a organization. Items with (*) are required.
-title: "[repo-webhook] Create a new repository webhook"
+name: create a repository 
+description:
+title: "[repo-create] Create a new repository webhook"
 labels:
   - repo-create
 body:

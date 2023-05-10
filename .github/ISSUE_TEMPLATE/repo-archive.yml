@@ -1,5 +1,5 @@
 name: archive a repository
-description: Set a repository to archived (read-only)
+description: 
 title: "[repo-archive] archive a repository"
 labels:
   - repo-archive

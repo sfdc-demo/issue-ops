@@ -1,5 +1,5 @@
 name: create an organization webhook
-description: Organization webhooks allow you to receive HTTP POST payloads whenever certain events happen in a organization. Items with (*) are required.
+description:
 title: "[org-webhook] Create a new organization webhook"
 labels:
   - org-webhook
