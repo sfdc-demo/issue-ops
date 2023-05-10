@@ -146,7 +146,7 @@ jobs:
             ${{ steps.issue-parser.outputs.issueparser_repository }} \
             --${{ steps.issue-parser.outputs.issueparser_visibility }} \
             $( [[ ${{ steps.issue-parser.outputs.issueparser_readme }} == "Enabled" ]] && echo --add-readme ) \
-            --description ${{ steps.issue-parser.outputs.issueparser_description }}
+            --description "${{ steps.issue-parser.outputs.issueparser_description }}"
 
 
       - name: archive a repository
