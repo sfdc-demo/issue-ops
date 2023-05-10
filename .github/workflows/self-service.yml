@@ -110,6 +110,7 @@ jobs:
 
 
       - name: Create organization webhook
+        if: steps.issue-labels.outputs.result == 'org-webhook'
         run: |
           gh api orgs/${{ steps.issue-parser.outputs.issueparser_organization }}/hooks \
             --input - <<< '{
@@ -120,4 +121,19 @@ jobs:
                 "url": "${{ steps.issue-parser.outputs.issueparser_payload_url }}",
                 "content_type": "${{ steps.issue-parser.outputs.issueparser_content_type }}"
               }
-            }' 
+            }'
+
+
+      - name: Create repository webhook
+        if: steps.issue-labels.outputs.result == 'repo-webhook'
+        run: |
+          gh api repo/${{ steps.issue-parser.outputs.issueparser_organization }}/${{ steps.issue-parser.outputs.issueparser_repository }}/hooks \
+            --input - <<< '{
+              "name": "web",
+              "active": '$( [[ ${{ steps.issue-parser.outputs.issueparser_active }} == "Enabled" ]] && echo true || echo false )',
+              "events": '$(echo "${{ steps.issue-parser.outputs.issueparser_events }}" | jq -Rc 'split(",")')',
+              "config": {
+                "url": "${{ steps.issue-parser.outputs.issueparser_payload_url }}",
+                "content_type": "${{ steps.issue-parser.outputs.issueparser_content_type }}"
+              }
+            }'
