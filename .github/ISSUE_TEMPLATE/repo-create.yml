@@ -1,6 +1,6 @@
 name: create a repository 
-description: ""
-title: "[repo-create] Create a new repository webhook"
+description: creates a new repository in your organization
+title: "[repo-create] Create a new repository"
 labels:
   - repo-create
 body:
@@ -46,4 +46,3 @@ body:
       description: add a README.md file to the repository on creation  
       options:
         - label: Enable
- 
