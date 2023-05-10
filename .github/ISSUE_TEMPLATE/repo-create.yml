@@ -30,7 +30,7 @@ body:
     attributes:
       label: Description of the repo (*)
       description: a brief description of the repo
-      placeholder: https://example.com/post
+      placeholder: ex. A repo for the other fuchsia sailfish
   - type: dropdown
     id: visibility
     attributes:
