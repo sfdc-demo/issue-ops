@@ -145,7 +145,7 @@ jobs:
           gh repo create \
             ${{ steps.issue-parser.outputs.issueparser_organization }}/${{ steps.issue-parser.outputs.issueparser_repository }} \
             --${{ steps.issue-parser.outputs.issueparser_visibility }} \
-            $( [[ ${{ steps.issue-parser.outputs.issueparser_readme }} == "Enabled" ]] && echo --add-readme ) \
+            $( [[ "${{ steps.issue-parser.outputs.issueparser_readme }}" == "Enabled" ]] && echo --add-readme ) \
             --description "${{ steps.issue-parser.outputs.issueparser_description }}"
 
 
