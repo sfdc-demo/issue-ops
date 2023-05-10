@@ -1,0 +1,6 @@
+required_keys:
+  - instance
+  - organization
+  - name
+  - description
+  - visibility
