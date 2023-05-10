@@ -28,32 +28,31 @@ jobs:
 
 
       # parse the issue template into a json object
-      # template-path is not required but highly recommended, we should be explcit about which template we are using
+      # template-path is not required but highly recommended
       - name: parse issue input
         uses: stefanbuck/github-issue-parser@v3
         id: issue-parser
         with:
           template-path: .github/ISSUE_TEMPLATE/${{ steps.issue-labels.outputs.result }}.yml
 
-      - run: cat $HOME/issue-parser-result.json
 
       # validate that required fields are present in the issue body
       - name: validate required form entries
-        id: validate-required-keys
+        id: validate-form
         run: |
-          echo "FORM_VALIDATION=$(python .github/scripts/validate_required_keys.py \
-            --required_keys_file=.github/ISSUE_TEMPLATE_REQUIRED_KEYS/${{ steps.issue-labels.outputs.result }}.yml \
-            --json_file=${HOME}/issue-parser-result.json)" >> $GITHUB_OUTPUT
+          echo "FORM=$(python .github/scripts/validate_form.py \
+            --yaml=.github/ISSUE_TEMPLATE_REQUIRED_KEYS/${{ steps.issue-labels.outputs.result }}.yml \
+            --json=${HOME}/issue-parser-result.json)" >> $GITHUB_OUTPUT
 
 
       # if the validation step above fails, this step will update the issue with a message indicating the missing or wrong fields
       - name: update issue with form validation failure message
-        if: steps.validate-required-keys.outputs.form_validation != ''
+        if: steps.validate-form.outputs.form != ''
         uses: actions/github-script@v6
         with:
           script: |
             const issueNumber = context.issue.number;
-            const errors = ${{ toJSON(steps.validate-required-keys.outputs.form_validation) }};
+            const errors = ${{ toJSON(steps.validate-form.outputs.form) }};
             const failureMessage = 'Validation failed. This likely means you are missing a required form field.\n\n```json\n' + errors + '\n```\n';
             await github.rest.issues.createComment({
               issue_number: issueNumber,
@@ -65,10 +64,10 @@ jobs:
 
 
       # validate that the user has the required role to perform the operation
-      - name: validate role and permissions
-        id: validate-permissions
+      - name: validate auth entitlements
+        id: validate-auth
         run: |
-          echo "PERMISSION_VALIDATION=$(python .github/scripts/validate_role.py \
+          echo "AUTH=$(python .github/scripts/validate_auth.py \
             --github_instance=${{ steps.issue-parser.outputs.issueparser_instance }} \
             --organization=${{ steps.issue-parser.outputs.issueparser_organization }} \
             --user=${{ github.actor }})" >> $GITHUB_OUTPUT
@@ -76,12 +75,12 @@ jobs:
 
       # update the issue with a message indicating the user does not have permissions to perform the operation
       - name: update issue with role validation failure message
-        if: steps.validate-permissions.outputs.permission_validation != ''
+        if: steps.validate-permissions.outputs.auth != ''
         uses: actions/github-script@v6
         with:
           script: |
             const issueNumber = context.issue.number;
-            const errors = ${{ toJSON(steps.validate-permissions.outputs.permission_validation) }};
+            const errors = ${{ toJSON(steps.validate-permissions.outputs.auth) }};
             const failureMessage = 'Validation failed. You do not have the access required to perform this operation.\n\n```json\n' + errors + '\n```\n';
             await github.rest.issues.createComment({
               issue_number: issueNumber,

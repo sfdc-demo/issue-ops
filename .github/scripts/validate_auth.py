@@ -31,7 +31,7 @@ def find_owner(instance_list, github_instance, organization_name, username):
     organization = next(
         (
             org
-            for org in instance["organizations"]
+            for org in instance["organizations"] # type: ignore
             if org["name"] == organization_name
         ),
         None,
