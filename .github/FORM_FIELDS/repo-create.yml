@@ -1,4 +1,4 @@
-required_keys:
+required_fields:
   - instance
   - organization
   - repository

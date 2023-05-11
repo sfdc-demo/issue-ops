@@ -1,6 +1,7 @@
-required_keys:
+required_fields:
   - instance
   - organization
+  - repository
   - payload_url
   - content_type
   - events

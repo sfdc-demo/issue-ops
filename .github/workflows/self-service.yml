@@ -36,68 +36,46 @@ jobs:
           template-path: .github/ISSUE_TEMPLATE/${{ steps.issue-labels.outputs.result }}.yml
 
 
-      # validate that required fields are present in the issue body
-      - name: validate required form entries
-        id: validate-form
+      # validate that required fields are present and that user has entitlements to perform the requested operation
+      - name: validate required form entries and user auth
+        id: validate
         run: |
-          echo "FORM=$(python .github/scripts/validate_form.py \
-            --required_keys_file=.github/ISSUE_TEMPLATE_REQUIRED_KEYS/${{ steps.issue-labels.outputs.result }}.yml \
-            --json_file=${HOME}/issue-parser-result.json)" >> $GITHUB_OUTPUT
-
-
-      # if the validation step above fails, this step will update the issue with a message indicating the missing or wrong fields
-      - name: update issue with form validation failure message
-        if: steps.validate-form.outputs.form != ''
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const issueNumber = context.issue.number;
-            const errors = ${{ toJSON(steps.validate-form.outputs.form) }};
-            const failureMessage = 'Validation failed. This likely means you are missing a required form field.\n\n```json\n' + errors + '\n```\n';
-            await github.rest.issues.createComment({
-              issue_number: issueNumber,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: failureMessage,
-            });
-            core.setFailed('Form is missing required fields/keys')
-
-
-      # validate that the user has the required role to perform the operation
-      - name: validate auth entitlements
-        id: validate-auth
-        run: |
-          echo "AUTH=$(python .github/scripts/validate_auth.py \
-            --github_instance=${{ steps.issue-parser.outputs.issueparser_instance }} \
+          echo "FORM=$(python .github/scripts/verify.py form \
+            --op=${{ steps.issue-labels.outputs.result }})" >> $GITHUB_OUTPUT &
+          echo "AUTH=$(python .github/scripts/verify.py auth \
+            --instance=${{ steps.issue-parser.outputs.issueparser_instance }} \
             --organization=${{ steps.issue-parser.outputs.issueparser_organization }} \
-            --user=${{ github.actor }})" >> $GITHUB_OUTPUT
+            --user=${{ github.actor }})" >> $GITHUB_OUTPUT &
+          wait
 
 
-      # update the issue with a message indicating the user does not have permissions to perform the operation
-      - name: update issue with role validation failure message
-        if: steps.validate-permissions.outputs.auth != ''
+      # if the validation steps above fail, this step will update the issue with a message indicating the missing or wrong fields
+      - name: update issue with form validation failure message
+        if: steps.validate.outputs.form != '' || steps.validate.outputs.auth != ''
         uses: actions/github-script@v6
         with:
           script: |
             const issueNumber = context.issue.number;
-            const errors = ${{ toJSON(steps.validate-permissions.outputs.auth) }};
-            const failureMessage = 'Validation failed. You do not have the access required to perform this operation.\n\n```json\n' + errors + '\n```\n';
+            const formErrors = ${{ toJSON(steps.validate.outputs.form) }};
+            const authErrors = ${{ toJSON(steps.validate.outputs.auth) }};
+            const formFailureMessage = 'Validation failed. This likely means you are missing a required form field.\n\n```json\n' + formErrors + '\n```\n';
+            const authFailureMessage = 'Validation failed. You do not have the access required to perform this operation.\n\n```json\n' + authErrors + '\n```\n';
+            const failureMessage = (steps.validate-form.outputs.form != '' ? formFailureMessage : '') + (steps.validate-auth.outputs.auth != '' ? authFailureMessage : '');
             await github.rest.issues.createComment({
               issue_number: issueNumber,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: failureMessage,
             });
-            core.setFailed('User/Role is missing required access')
+            core.setFailed('Verification failed. Errors: ' + failureMessage);
 
 
       # set the instance hostname for authentication
       - name: set instance hostname for authentication
-        id: set-instance-hostname
+        id: host
         run: |
-          echo "HOSTNAME=$(python .github/scripts/set_hostname.py \
-            --yaml=.github/PERMISSIONS/github.yml \
-            --json=${HOME}/issue-parser-result.json)" >> $GITHUB_OUTPUT
+          echo "HOSTNAME=$(python .github/scripts/verify.py hostname\
+            --instance=${{ steps.issue-parser.outputs.issueparser_instance }} >> $GITHUB_OUTPUT
 
 
       # login to the instance using the gh cli
@@ -105,7 +83,7 @@ jobs:
         run: |
           echo ${{ secrets[format('{0}_TOKEN', steps.issue-parser.outputs.issueparser_instance)] }} > token.txt
           gh auth login \
-          --hostname ${{ steps.set-instance-hostname.outputs.hostname }} \
+          --hostname ${{ steps.host.outputs.hostname }} \
           --with-token < token.txt
 
 
@@ -130,7 +108,7 @@ jobs:
           gh api repos/${{ steps.issue-parser.outputs.issueparser_organization }}/${{ steps.issue-parser.outputs.issueparser_repository }}/hooks \
             --input - <<< '{
               "name": "web",
-              "active": '[[ ${{ steps.issue-parser.outputs.issueparser_active }} == "Enable" ]] && echo true || echo false',
+              "active": '[[ "${{ steps.issue-parser.outputs.issueparser_active }}" == "Enable" ]] && echo true || echo false',
               "events": '$(echo "${{ steps.issue-parser.outputs.issueparser_events }}" | jq -Rc 'split(",")')',
               "config": {
                 "url": "${{ steps.issue-parser.outputs.issueparser_payload_url }}",
